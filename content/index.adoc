@@ -1,17 +1,17 @@
 
 [%notitle]
-= Traefik v2.0 & Maesh: Look Ma’, routing HTTP and TCP with no Hands!
+= Easy HTTPS for your Microservice Architectures - Julien Salleyron, Containous
 include::./includes/attributes.adoc[]
 
 [{invert}]
 == !
 
 [.title]
-Traefik v2.0 & Maesh: Look Ma’, routing HTTP and TCP with no Hands!
+Easy HTTPS for your Microservice Architectures - Julien Salleyron, Containous
 
 image::traefik.logo.png["Traefik's Logo",height=300]
 
-link:https://www.meetup.com/fr-FR/kubernetes-belgium/events/264700528/[Belgium Kubernetes Meetup - October 2019 @ Louvain]
+link:https://osseu19.sched.com/event/TLHO/easy-https-for-your-microservice-architectures-julien-salleyron-containous[Open Source Summit Europe - Lyon 2019]
 
 == How to use these slides?
 
@@ -24,16 +24,16 @@ link:https://www.meetup.com/fr-FR/kubernetes-belgium/events/264700528/[Belgium K
 * *Speaker mode (and notes):* keyboard's shortcut "kbd:[s]"
 
 // //// Speaker Slide and Company slide
-
+[{invert}]
 == Whoami
 
-* Damien DUPORTAL:
-** link:https://traefik.io/[Træfik,window=_blank]'s Developer 🥑 Advocate @
-link:https://containo.us/[Containous,window=_blank]
-* link:https://twitter.com/DamienDuportal[icon:twitter[] @DamienDuportal,window=_blank]
-* link:https://github.com/dduportal[icon:github[] dduportal,window=_blank]
+Julien Salleyron
 
-image::damien.jpg[height=200]
+* link:https://traefik.io/[Træfik,window=_blank]'s Senior Software Engineer @
+link:https://containo.us/[Containous,window=_blank]
+** link:https://github.com/juliens[icon:github[] juliens,window=_blank]
+
+image::juliens.jpg[height=200]
 
 [{invert}]
 == Containous
@@ -64,7 +64,15 @@ include::./includes/traefik-core-concepts.adoc[]
 
 include::./includes/show-me-the-conf.adoc[]
 
-include::./includes/demo.adoc[]
+include::./includes/v2-k8s.adoc[]
+
+include::./includes/v2-tcp.adoc[]
+
+include::./includes/more-to-come.adoc[]
+
+include::./includes/traefikee.adoc[]
+
+include::./includes/maesh.adoc[]
 
 include::./includes/more-to-come.adoc[]
 
@@ -79,9 +87,7 @@ include::./includes/the-end.adoc[]
 [{invert}]
 == Thank you!
 
-link:https://twitter.com/DamienDuportal[icon:twitter[] @DamienDuportal]
-
-link:https://github.com/dduportal[icon:github[] dduportal]
+* link:https://github.com/juliens[icon:github[] juliens,window=_blank]
 
 image::qrcode.png["QRCode to this presentation",height=150]
 
