@@ -28,6 +28,12 @@ kubectl get nodes
 
 ### Tour
 
+* Get public domain name with
+
+```shell
+konvoy get ops-portal
+```
+
 * Open Operation Portal
 * Open all the sub dashboard
 * Do a tour of Traefik Dashboard
@@ -40,8 +46,12 @@ kubectl get nodes
 kubectl apply -f ./demo1/webapp/
 ```
 
+* Check Traefik dashboard: new backend + frontend
+
 * Open application at `http://<CNAME>/webapp/`,
   and reload to see replicas
+
+* Check Grafana for metrics in the traefik dashboard after some seconds
 
 <!-- * Docker image can be rebuilts with content from `./webapp/docker-image` -->
 
