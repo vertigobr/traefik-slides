@@ -40,13 +40,14 @@ kubectl get nodes
 kubectl apply -f ./demo1/webapp/
 ```
 
-* Open application at `http://<CNAME>
+* Open application at `http://<CNAME>/webapp/`,
+  and reload to see replicas
 
-* Docker image can be rebuilts with content from `./webapp/docker-image`
+<!-- * Docker image can be rebuilts with content from `./webapp/docker-image` -->
 
 ## Demo 2 (Traefik v2)
 
-### Retrieve Traefik v1 Configurations
+<!-- ### Retrieve Traefik v1 Configurations
 
 * Retrieve static configuration:
 
@@ -61,11 +62,11 @@ kubectl get configmaps --namespace=kubeaddons traefik-kubeaddons -o yaml > ./dem
 
 ```shell
 kubectl get ingress --all-namespaces -o yaml > ./demo1/ingresses.yml
-```
+``` -->
 
 ### Convert Configuration for v2
 
-* Download <https://github.com/containous/traefik-migration-tool> (v0.9.0 used)
+<!-- * Download <https://github.com/containous/traefik-migration-tool> (v0.9.0 used) -->
 
 * Convert static configuration:
 
@@ -73,51 +74,60 @@ kubectl get ingress --all-namespaces -o yaml > ./demo1/ingresses.yml
 traefik-migration-tool static --input=./demo1/traefik.toml --output-dir=./demo2/
 ```
 
-* Convert dynamic configuration (ingresses to ingressroutes):
+<!-- * Convert dynamic configuration (ingresses to ingressroutes):
 
 ```shell
 traefik-migration-tool ingress --input=./demo1/ingresses.yml --output=./demo2/
-```
+``` -->
 
-### Fix Configuration issues (aka. what the migration tool did not worked out)
+<!-- ### Fix Configuration issues (aka. what the migration tool did not worked out)
 
 * Find every object names in `./demo2/ingresses.yml` containing a slash (`/`) and replace it by a dash (or remove it when it's leading or trailing):
 
 ```shell
 sed 's#name: \/\(.*\)\/\(.*\)\/\(.*\)$#name: \1-\2-\3#g' ./demo2/ingresses.yml > ./demo2/ingressroutes.yml
-```
+``` -->
 
 ### Install Traefik v2
 
-* Get the Helm Chart
-
-TODO
-
-* Specify custom values:
-
-```yml
-# values.yaml
-```
+* Helm chart is in the repo (frozen state). Otherwise get it at <https://github.com/containous/traefik-helm-chart>.
 
 * Install it with the following:
 
 ```shell
-helm install --values=values.yaml ./traefik-helm-chart/
+helm install --namespace="traefik-v2" --name="traefik-v2" ./demo2/traefik-helm-chart/
 ```
+
+* Wait for everything ready:
+
+```shell
+watch kubect get all --namespace=traefik-v2
+# Retrieve the external LB domain
+
+watch dig <external LB domain>
+# Wait for an answer with IP in the "IN A"
+```
+
+* Open the new dashboard at `http://<external LB domain>/dashboard/`
 
 ### Create IngressRoutes
 
 * Apply the new Ingress routes:
 
 ```shell
-
+kubectl apply -f ./demo2/ingressroutes.yml
 ```
 
+* Check the deployment in the dashboard
+
+* Open the webapp at the new URL
+
+<!--
 * (If you forgot, remove the legacy dashboard IngressRoute):
 
 ```shell
 kubectl delete --namespace=kubeaddons ingressroute traefik-kubeaddons-dashboard
-```
+``` -->
 
 ## Demo 3 (Maesh)
 
@@ -127,11 +137,6 @@ kubectl delete --namespace=kubeaddons ingressroute traefik-kubeaddons-dashboard
 helm repo add maesh https://containous.github.io/maesh/charts
 helm repo update
 helm install --name=maesh --namespace=maesh maesh/maesh --values=./demo3/values.yaml
-```
-
-* Install SMI CRDs:
-
-```shell
 kubectl apply -f ./demo3/crds/
 ```
 
@@ -141,12 +146,26 @@ kubectl apply -f ./demo3/crds/
 kubectl apply -f ./demo3/apps/0-apps/
 ```
 
-* (Optionnal: demo app can be rebuilt from `./demo3/apps/docker-image`)
+<!-- * (Optionnal: demo app can be rebuilt from `./demo3/apps/docker-image`) -->
 
-* Open the apps webpage: only 2 images using the normal service network
+* Open the apps webpage at `http://<external LB>/maesh/`: only 2 images using the normal service network
 
 * Deploy the SMI configuration
 
 ```shell
 kubectl apply -f ./demo3/apps/1-smis/
+```
+
+## Cleanup
+
+* Remove Helm deploments:
+
+```shell
+helm delete --purge maesh traefik-v2
+```
+
+* Remove namespaces (and the related resources):
+
+```shell
+kubectl delete namespaces apps webapp maesh traefik-v2
 ```
