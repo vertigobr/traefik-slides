@@ -57,6 +57,28 @@ kubectl apply -f ./demo1/webapp/
 
 ## Demo 2 (Traefik v2)
 
+### Install Traefik v2
+
+* Helm chart is in the repo (frozen state). Otherwise get it at <https://github.com/containous/traefik-helm-chart>.
+
+* Install it with the following:
+
+```shell
+helm install --namespace="traefik-v2" --name="traefik-v2" ./demo2/traefik-helm-chart/
+```
+
+* Wait for everything ready:
+
+```shell
+kubectl get all --namespace=traefik-v2
+# Retrieve the external LB domain
+
+dig <external LB domain>
+# Wait for an answer with IP in the "IN A"
+```
+
+* Open the new dashboard at `http://<external LB domain>/dashboard/`
+
 <!-- ### Retrieve Traefik v1 Configurations
 
 * Retrieve static configuration:
@@ -72,23 +94,24 @@ kubectl get configmaps --namespace=kubeaddons traefik-kubeaddons -o yaml > ./dem
 
 ```shell
 kubectl get ingress --all-namespaces -o yaml > ./demo1/ingresses.yml
-``` -->
+```
+-->
 
 ### Convert Configuration for v2
 
 <!-- * Download <https://github.com/containous/traefik-migration-tool> (v0.9.0 used) -->
 
-* Convert static configuration:
+<!-- * Convert static configuration:
 
 ```shell
 traefik-migration-tool static --input=./demo1/traefik.toml --output-dir=./demo2/
-```
+``` -->
 
-<!-- * Convert dynamic configuration (ingresses to ingressroutes):
+* Convert dynamic configuration (ingresses to ingressroutes):
 
 ```shell
-traefik-migration-tool ingress --input=./demo1/ingresses.yml --output=./demo2/
-``` -->
+traefik-migration-tool ingress --input=./demo1/ingresses.yml --output=./migration/
+```
 
 <!-- ### Fix Configuration issues (aka. what the migration tool did not worked out)
 
@@ -97,28 +120,6 @@ traefik-migration-tool ingress --input=./demo1/ingresses.yml --output=./demo2/
 ```shell
 sed 's#name: \/\(.*\)\/\(.*\)\/\(.*\)$#name: \1-\2-\3#g' ./demo2/ingresses.yml > ./demo2/ingressroutes.yml
 ``` -->
-
-### Install Traefik v2
-
-* Helm chart is in the repo (frozen state). Otherwise get it at <https://github.com/containous/traefik-helm-chart>.
-
-* Install it with the following:
-
-```shell
-helm install --namespace="traefik-v2" --name="traefik-v2" ./demo2/traefik-helm-chart/
-```
-
-* Wait for everything ready:
-
-```shell
-watch kubect get all --namespace=traefik-v2
-# Retrieve the external LB domain
-
-watch dig <external LB domain>
-# Wait for an answer with IP in the "IN A"
-```
-
-* Open the new dashboard at `http://<external LB domain>/dashboard/`
 
 ### Create IngressRoutes
 
@@ -147,7 +148,6 @@ kubectl delete --namespace=kubeaddons ingressroute traefik-kubeaddons-dashboard
 helm repo add maesh https://containous.github.io/maesh/charts
 helm repo update
 helm install --name=maesh --namespace=maesh maesh/maesh --values=./demo3/values.yaml
-kubectl apply -f ./demo3/crds/
 ```
 
 * Install demo app
