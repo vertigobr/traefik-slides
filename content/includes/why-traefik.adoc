@@ -7,27 +7,30 @@ Why, Mr Anderson?
 
 [{invert}]
 [%notitle]
-== Evolution of Software Design
+== Evolução dos Sistemas Distribuídos
 
 //image::evolution-of-software-design.jpg[Evolution of Software Design]
-image::pasta-architecture.png["Evolution of Software Design", height = 800]
+image::microservices-insight-diagram.png["Evolução dos Sistemas Distribuídos", height = 600]
 
-== The Premise of Microservices...
+== A Promessa de Micro-serviços...
 
 image::asterix-premise.jpg["Asterix - Premise", height = 550]
 
 [{invert}]
-== ...and What Happens
+== ...mas na prática...
 
 image::asterix-fight.jpg[Asterix - Fighting]
 
-== Where's My Service?
+== Cadê Meu Serviço?
 
-image::where-is-charlie.jpg["Where os Charlie?",width=900]
+image::where-is-charlie.jpg["Where is Charlie?",width=900]
 
 [{invert}]
-== Tools of the Trade
+== Sopa de Ferramentas
 
+image::devops-periodic-table.png["DevOps Periodic Table"]
+
+////
 image::docker.png[width=80,float=left]
 image::rancher-os.png[width=80,float=left]
 image::docker-swarm.png[width=80,float=left]
@@ -43,16 +46,11 @@ image::consul.png[width=80,float=right]
 image::netflix_oss.png[width=80,float=right]
 image::etcd.png[width=80,float=right]
 image::zookeeper.png[width=80,float=right]
+////
 
-== !
-
-image::yaml.jpg[width=900]
-
-[.small][.small]
-Source: https://twitter.com/Caged/status/1039937162769096704[]
-
-== What If I Told You?
+== Pode ser mais simples?
 
 image::what-if-I-told-you.jpg[What If I Told You]
 
-That You Don't Have to Write This Configuration File...?
+Tem que ser tão complicado?...
+

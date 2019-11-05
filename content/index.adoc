@@ -1,41 +1,41 @@
 
 [%notitle]
-= Quoi de neuf avec Traefik 2.0, le edge router à 1 milliard de téléchargements?
+= Traefik 2.0: Salvando o dia em Desktop, Swarm e Kubernetes
 include::./includes/attributes.adoc[]
 
 [{invert}]
 == !
 
 [.title]
-(🇫🇷) Quoi de neuf avec Traefik 2.0, le edge router à 1 milliard de téléchargements?
+(🇧🇷) Traefik 2.0: Salvando o dia em Desktop, Swarm e Kubernetes
 
 image::traefik.logo.png["Traefik's Logo",height=300]
 
-link:https://www.meetup.com/fr-FR/Toulouse-DevOps/events/265278248/[Toulouse Devops Meetup - 2019]
+link:https://www.meetup.com/pt-BR/Docker-Rio-de-Janeiro/events/265561584/[Rio Docker Meetup - Novembro 2019]
 
 // //// Speaker Slide and Company slide
 [{invert}]
 == Whoami
-Jean-Baptiste Doumenjou
+André Fernandes
 
-* 🇫🇷 Developer
-* Maintainer of link:https://traefik.io/[Træfik]
-* link:https://twitter.com/jbdoumenjou[+++<span class="fab fa-twitter"></span>+++ @jbdoumenjou]
-* link:https://github.com/jbdoumenjou[+++<span class="fab fa-github"></span>+++ jbdoumenjou]
+* 🇧🇷 (ex-)Developer
+* Fundador da  link:https://vertigo.com.br/[Vertigo Tecnologia]
+* link:https://twitter.com/andrenit[+++<span class="fab fa-twitter"></span>+++ @andrenit]
+* link:https://github.com/andrevtg[+++<span class="fab fa-github"></span>+++ andrevtg]
 
-image::jbd.jpg[height=200]
+image::dockerconeu.jpg[height=200]
 
 [{invert}]
-== Containous
+== Vertigo
 
-link:https://containo.us[]
+link:https://vertigo.com.br[]
 
-* We Believe in Open Source
-* We Deliver Traefik and Traefik Enterprise Edition
-* Commercial Support
-* 30 people distributed, 90% tech
+* Entusiastas e praticantes de Open Source
+* Usamos Traefik de ponta a ponta
+* Estamos com a Docker desde a versão 0.6
+* Vivemos de modernizar TI pela adoção de containers e DevOps
 
-image::containous-logo.png["Containous Logo"]
+image::logotipo-principal-sem-fundo.png["Logo Vertigo" height=200]
 
 // //// end of Speaker Slide and Company slide
 
