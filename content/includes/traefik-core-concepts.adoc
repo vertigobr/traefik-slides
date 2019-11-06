@@ -1,20 +1,20 @@
 
-= Traefik (v2.0) Core Concepts
+= Traefik (v2.0) - Conceitos
 
 image::bored-minion.jpg[Bored Minion]
 
 [{invert}]
-== Traefik is an Edge Router
+== Traefik é um Roteador
 
 image::traefik-concepts-edge.png["Traefik Edge Router",width=1000]
 
 [{invert}]
-== Dynamically Discovers Services
+== Descoberta Dinâmica de Serviços
 
 image::traefik-concepts-auto.png["Traefik Automatic Config",width=1000]
 
 [{invert}]
-== Architecture (v2.0) at a Glance
+== Arquitetura da Versão 2.0
 
 image::traefik-concepts-architecture-overview.png["Traefik Architecture At A Glance",width=1000]
 

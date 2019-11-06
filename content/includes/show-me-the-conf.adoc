@@ -1,8 +1,8 @@
 
-= Show Me the Configuration!
+= Quero Ver a Configuração!
 
 [{invert}]
-== Traefik with 🐳
+== Traefik com 🐳
 
 image::quickstart-diagram.png["Quickstart Diagram",width=800]
 
