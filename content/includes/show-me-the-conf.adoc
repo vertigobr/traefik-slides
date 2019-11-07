@@ -7,7 +7,7 @@
 image::quickstart-diagram.png["Quickstart Diagram",width=800]
 
 [{invert}]
-== Example With 🐳
+== Exemplo com 🐳
 
 [source,yaml]
 ----
@@ -16,28 +16,59 @@ version: '3'
 services:
   traefik:
     image: traefik:v2.0
-    command: --providers.docker=true --providers.docker.endpoint="unix:///var/run/docker.sock"
+    command: --providers.docker=true --providers.docker.endpoint="unix:///var/run/docker.sock" --api.insecure=true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "80:80"
+      - "8080:8080"
 
   webapp1:
-    image: nginx
-    command: /bin/bash -c "echo '<h1>Esta é a webapp1</h1>' > /usr/share/nginx/html/index.html && exec nginx -g 'daemon off;'"
+    image: containous/whoami
     labels:
       - "traefik.http.routers.webapp1.rule=Host(`app1.company.com`)"
 
   webapp2:
-    image: nginx
-    command: /bin/bash -c "echo '<h1>Esta é a webapp2</h1>' > /usr/share/nginx/html/index.html && exec nginx -g 'daemon off;'"
+    image: containous/whoami
     labels:
       - "traefik.http.routers.webapp2.rule=Host(`app2.company.com`)"
 ----
 
+[{invert}]
+== Exemplo com 🐳🐳🐳
+
+[source,yaml]
+----
+...
+services:
+  traefik:
+    image: traefik:v2.0
+    command: >
+      --providers.docker.endpoint="unix:///var/run/docker.sock"
+      --providers.docker.swarmMode=true
+      --providers.docker.exposedbydefault=false
+      --api.insecure=true
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+...
+  webapp1:
+    image: containous/whoami
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.webapp1.rule=Host(`app1.company.com`)"
+        - "traefik.http.services.webapp1.loadbalancer.server.port=80"
+...
+----
+
 
 [{invert}]
-== Traefik With &#9096;
+== Traefik com &#9096;
 
 image::traefik-kubernetes-diagram.png["Traefik with Kubernetes Diagram",width=900]
 
@@ -45,48 +76,54 @@ image::traefik-kubernetes-diagram.png["Traefik with Kubernetes Diagram",width=90
 Diagram from link:https://medium.com/@geraldcroes[]
 
 [{invert}]
-== Ingress Example with &#9096;
+== Exemplo de Ingress com &#9096;
 
 [source,yaml]
 ----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: corporate-webapp
-  annotations:
-    kubernetes.io/ingress.class: 'traefik'
+  name: webapp
+  namespace: front
+  labels:
+    app: webapp
 spec:
-  rules:
-  - host: localhost
-    http:
-      paths:
-      - backend:
-          serviceName: corporate-webapp
-          servicePort: 80
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`app3.company.com`)
+    kind: Rule
+    services:
+    - name: webapp
+      port: 80
 ----
 
 
-== But...
+== Antigamente...
 
-image::traefik-ingress-annotations.png[float=left,height=600]
+image::traefik-ingress-annotations.png["Annotations genéricas",width=900]
 
-image::nginx-ingress-annotations.png[float=right,height=600]
+== ...era só mato!
+
+image::nginx-ingress-annotations.png["Annotations específicas",width=900]
 
 [{invert}]
 == &#9096; CRD - Custom Resources Definition
 
 [source,yaml]
 ----
-# File "webapp.yaml"
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: simpleingressroute
+  name: webapp
+  namespace: front
+  labels:
+    app: webapp
 spec:
   entryPoints:
     - web
   routes:
-  - match: Host(`localhost`) && PathPrefix(`/whoami`)
+  - match: Host(`app3.company.com`)
     kind: Rule
     services:
     - name: webapp
