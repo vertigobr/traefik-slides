@@ -14,22 +14,25 @@ image::quickstart-diagram.png["Quickstart Diagram",width=800]
 version: '3'
 
 services:
-  reverse-proxy:
+  traefik:
     image: traefik:v2.0
-    command: --providers.docker.endpoint="tcp://proxy-docker.svc.local:2376"
+    command: --providers.docker=true --providers.docker.endpoint="unix:///var/run/docker.sock"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "80:80"
 
-  corporate-webapp:
-    image: company/corporate-webapp:1.2.3
+  webapp1:
+    image: nginx
+    command: /bin/bash -c "echo '<h1>Esta é a webapp1</h1>' > /usr/share/nginx/html/index.html && exec nginx -g 'daemon off;'"
     labels:
-      - "traefik.http.routers.webapp.rule=Host(`company.com`)"
+      - "traefik.http.routers.webapp1.rule=Host(`app1.company.com`)"
 
-  admin-webapp:
-    image: company/admin-webapp:15.2.2
+  webapp2:
+    image: nginx
+    command: /bin/bash -c "echo '<h1>Esta é a webapp2</h1>' > /usr/share/nginx/html/index.html && exec nginx -g 'daemon off;'"
     labels:
-      - "traefik.http.routers.admin-webapp.rule=Host(`company.com`) && PathPrefix(`/admin`)"
-      - "traefik.http.services.admin-svc.loadbalancer.server.port=9999"
+      - "traefik.http.routers.webapp2.rule=Host(`app2.company.com`)"
 ----
 
 
